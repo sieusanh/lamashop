@@ -1,0 +1,76 @@
+<%- include('../partials/header'); -%>
+
+<form>
+    <h2>Create new product</h2>
+    <label for="title">Title</label>
+    <input type="text" name="title" required />
+    <label for="desc">Description</label>
+    <input type="text" name="desc" required />
+    <label for="uploaded_image">Upload image</label>
+    <input type="file" name="uploaded_image" required/>
+    <label for="categories">categories</label>
+    <input type="text" name="categories" required />
+    <label for="size">Size</label>
+    <input type="text" name="size" required />
+    <label for="color">Color</label>
+    <input type="text" name="color" required />
+    <label for="price">Price</label>
+    <input type="text" name="price" required />
+    <button>Submit</button>
+</form>
+
+<div id="status" style="display: none; text-align: center; color: green;">
+    Product has been created successfully
+</div>
+
+<script>
+    localStorage.getItem('isAdmin') === 'true' || location.assign('/')
+    
+    const form = document.querySelector('form')
+    const status = document.getElementById('status')
+
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault()
+
+        // get the values
+        const title = form.title.value
+        const desc = form.desc.value
+        let uploaded_image = form.uploaded_image.value
+        uploaded_image = uploaded_image.split('\\')
+        const image = uploaded_image[uploaded_image.length - 1]
+        const categories = form.categories.value
+        const size = form.size.value
+        const color = form.color.value
+        const price = form.price.value  
+
+        const res = await fetch('/api/products/create', {
+            method: 'POST',
+            body: JSON.stringify({ 
+                accessToken: localStorage.getItem('accessToken'),
+                title, desc, image, categories, size, color, price   
+            }),               
+            headers: { 
+                'Content-Type': 'application/json', 
+                'Accept': 'application/json'
+            }
+        })
+        const data = await res.json()
+        console.log(data)
+
+        // isAdmin has already been checked
+        
+        var uploaded_file = form.uploaded_image.files[0]
+        uploaded_file.filename = 'random_file'
+        var formData = new FormData()
+        const data2 = formData.append('uploaded_image', uploaded_file)
+        await fetch('/api/products/upload-image', {
+            method: 'POST',
+            body: formData
+        })
+
+        form.style.display = 'none'
+        status.style.display = 'block'
+    })
+</script>
+
+<%- include('../partials/footer'); -%>

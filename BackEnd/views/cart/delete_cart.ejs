@@ -1,0 +1,38 @@
+<%- include('../partials/header'); -%>
+
+<h2>Delete cart by id</h2>
+
+<form>
+    <label for="id">Cart ID</label>
+    <input type="text" name="id" required />
+    <button>Submit</button>
+</form>
+
+<div id="status" style="display: none; text-align: center; color: green;">
+    Cart has been deleted successfully
+</div>
+
+<script>
+    localStorage.getItem('isAdmin') === 'true' || location.assign('/')
+
+    const form = document.querySelector('form')
+    const status = document.getElementById('status')
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault()
+        const id = form.id.value
+        const res = await fetch('/api/carts/' + id, {
+            method: 'DELETE',
+            body: JSON.stringify({ 
+                accessToken: localStorage.getItem('accessToken') 
+            }),               
+            headers: { 
+                'Content-Type': 'application/json', 
+                'Accept': 'application/json'
+            }
+        })
+        if (res.status === 200)
+            status.style.display = 'block'
+    })
+</script>
+
+<%- include('../partials/footer'); -%>

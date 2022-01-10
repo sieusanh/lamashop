@@ -1,0 +1,36 @@
+<%- include('../partials/header'); -%>
+
+<h2>Delete user by id</h2>
+
+<form>
+    <label for="id">User ID</label>
+    <input type="text" name="id" required />
+    <button>Submit</button>
+</form>
+
+<div id="status" style="display: none; text-align: center; color: green;">
+    User has been deleted successfully
+</div>
+
+<script>
+    const form = document.querySelector('form')
+    const status = document.getElementById('status')
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault()
+        const id = form.id.value
+        const res = await fetch('/api/users/' + id, {
+            method: 'DELETE',
+            body: JSON.stringify({ 
+                accessToken: localStorage.getItem('accessToken') 
+            }),               
+            headers: { 
+                'Content-Type': 'application/json', 
+                'Accept': 'application/json'
+            }
+        })
+        if (res.status === 200)
+            status.style.display = 'block'
+    })
+</script>
+
+<%- include('../partials/footer'); -%>

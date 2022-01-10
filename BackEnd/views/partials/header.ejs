@@ -1,0 +1,135 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <nav>
+    <h1><a href="/">Fruit Store</a></h1>
+    <ul>
+      <li class="login-ul" style="display: none;">Welcome <span id="user_text"></span></li>
+      <li class="login-ul" style="display: none;"><a id="logout-anchor">Log out</a></li>
+      <li class="logout-ul"><a href="/api/auth/login">Log in</a></li>
+      <li class="logout-ul"><a href="/api/auth/signup" class="btn">Sign up</a></li>
+    </ul>
+  </nav>
+  <div id="cart" style="display: none;">
+    <a id="cart-anchor">
+      <img src="/images/shopping-cart.png">
+      <div id="item-count"></div>
+    </a>
+  </div>
+
+<script>
+  const login_ul = document.getElementsByClassName('login-ul')
+  const logout_ul = document.getElementsByClassName('logout-ul')
+  const cart = document.getElementById('cart')
+
+  if ( !localStorage.getItem('accessToken') ) {
+    throw new Error('User is not authenticated')
+  }
+
+  // auto logout if the token is expired
+  if (localStorage.getItem('exp')) {
+    if (Date.now() >= localStorage.getItem('exp') * 1000){
+      localStorage.clear()
+    }
+  } 
+
+
+  const user = document.getElementById('user_text')
+  user.textContent = localStorage.getItem('username')
+  login_ul[0].style.display = 'block'
+  login_ul[1].style.display = 'block'
+  cart.style.display = 'block'
+  logout_ul[0].style.display = 'none'
+  logout_ul[1].style.display = 'none'
+
+
+  const logoutAnchor = document.getElementById('logout-anchor')
+  logoutAnchor.style.cursor = 'pointer'
+  logoutAnchor.addEventListener('click', (e) => {
+    e.preventDefault()
+    fetch('/api/auth/logout')
+    .then(res => {
+      if (res.status === 204) {
+        localStorage.clear()
+        location.assign('/')
+      }
+    })
+  })
+
+  const cartAnchor = document.getElementById('cart-anchor')
+  const itemCount = document.getElementById('item-count')
+  cartAnchor.addEventListener('click', (e) => {
+    e.preventDefault()
+    fetch('/api/carts/checkCart', {
+      method: 'POST',
+      body: JSON.stringify({ 
+        accessToken: localStorage.getItem('accessToken')
+      }),
+      headers: { 
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      }
+    })
+    .then(res => {
+      if (res.status >= 400){
+        location.assign('/api/auth/login')
+        return
+      }
+      location.assign('/api/carts/checkCart')
+    })
+  })
+
+  fetch('/api/carts/find/' + localStorage.getItem('id'), {
+    method: 'POST',
+    body: JSON.stringify({ 
+      accessToken: localStorage.getItem('accessToken')
+    }),               
+    headers: { 
+      'Content-Type': 'application/json', 
+      'Accept': 'application/json'
+    }
+  })
+  .then(res => {
+    if (res.status === 500)
+      throw res.json()
+    if (res.status === 404) {
+      fetch('/api/carts/create', {
+        method: 'POST',
+        body: JSON.stringify({ 
+          accessToken: localStorage.getItem('accessToken'),
+          userId: localStorage.getItem('id'), 
+          prorducts: []  
+        }),               
+        headers: { 
+          'Content-Type': 'application/json', 
+          'Accept': 'application/json'
+        }
+      })
+      .then(res => {
+        if (res.status === 500)
+          throw res.json()
+        if (res.status === 200)
+          return res.json()
+      })
+      .then(data => {
+        localStorage.setItem('cartId', data._id)
+      })
+      .catch(err => console.log(err))
+      throw 'Cancel'
+    }
+
+    if (res.status === 200)
+      return res.json()
+  })
+  .then(data => {
+    localStorage.setItem('cartId', data._id)
+    if (data.products.length > 0)
+      itemCount.textContent = data.products.length
+  })
+  .catch(err => console.log(err))
+</script>

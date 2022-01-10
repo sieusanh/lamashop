@@ -1,0 +1,36 @@
+<%- include('../partials/header'); -%>
+
+<ul id="products" class="recipes"></ul>
+
+<script>
+  const products = document.getElementById('products')
+  
+  fetch('/api/products/find/')
+  .then(res => {
+      if (res.status === 500)
+          throw res.json()
+      if (res.status === 200)
+          return res.json()
+  })
+  .then(data => {
+      for (let product of data) {
+          let li = document.createElement('li')
+          let a = document.createElement('a')
+          let img = document.createElement('img')
+          let h4 = document.createElement('h4')
+          let p = document.createElement('p')
+
+          li.className += "recipe"
+          a.href = "/api/products/get/" + product._id
+          img.src = "/images/" + product.image
+          h4.innerText = product.title
+          p.innerText = product.price + '$'
+          a.append(img, h4)
+          li.append(a, p)
+          products.appendChild(li)
+      }
+  })
+  .catch(err => console.log(err))
+</script>
+
+<%- include('../partials/footer'); -%>

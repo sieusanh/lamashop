@@ -1,0 +1,42 @@
+<%- include('../partials/header'); -%>
+
+<h2>Find all user</h2>
+</br></br>
+
+<div id="users"></div>
+
+<script>
+    localStorage.getItem('isAdmin') === 'true' || location.assign('/')
+
+    const users = document.getElementById('users')
+    
+    fetch('/api/users/', {
+        method: 'POST',
+        body: JSON.stringify({ 
+            accessToken: localStorage.getItem('accessToken') 
+        }),               
+        headers: { 
+            'Content-Type': 'application/json', 
+            'Accept': 'application/json'
+        }
+    })
+    .then(res => {
+        if (res.status === 500)
+            throw res.json()
+        if (res.status === 200)
+            return res.json()
+    })
+    .then(data => {
+        for (let user of data) {
+            let div = document.createElement('div')
+            div.innerHTML = 
+            `ID[${user.id}] - Username: <b>${user.username}</b> </br>
+            Email: <b>${user.email}</b> </br>
+            isAdmin: <b>${user.isAdmin}</b> </br></br>`
+            users.appendChild(div)
+        }
+    })
+    
+</script>
+
+<%- include('../partials/footer'); -%>

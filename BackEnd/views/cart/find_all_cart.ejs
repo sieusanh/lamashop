@@ -1,0 +1,46 @@
+<%- include('../partials/header'); -%>
+
+<h2>Find all cart</h2>
+</br></br>
+
+<div id="carts"></div>
+
+<script>
+    localStorage.getItem('isAdmin') === 'true' || location.assign('/')
+
+    const carts = document.getElementById('carts')
+    
+    fetch('/api/carts/', {
+        method: 'POST',
+        body: JSON.stringify({ 
+            accessToken: localStorage.getItem('accessToken') 
+        }),               
+        headers: { 
+            'Content-Type': 'application/json', 
+            'Accept': 'application/json'
+        }
+    })
+    .then(res => {
+        if (res.status === 500)
+            throw res.json()
+        if (res.status === 200)
+            return res.json()
+    })
+    .then(data => {
+        for (let cart of data) {
+            let div = document.createElement('div')
+            let str = `User ID: <b>${cart.userId}</b> </br>Products: </br>`
+            for (let p of cart.products) {
+                str += `Product ID: <b>${cart.productId}</b> 
+                        </br>
+                        Quantity: <b>${cart.quantity}</b> 
+                        </br></br>`
+            }
+            div.innerHTML = str + '<p>------------------------------</p> </br></br>'
+            users.appendChild(div)
+        }
+    })
+    
+</script>
+
+<%- include('../partials/footer'); -%>

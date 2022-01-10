@@ -1,0 +1,38 @@
+<%- include('partials/header'); -%>
+
+<header>
+  <div class="smoothie">
+    <img src="/fruit_logo.png" alt="">
+  </div>
+  <div class="headings">
+    <h2>Fruit Combo</h2>
+    <h3>By Our Staffs</h3>
+    <a id="recipes-btn" class="btn">View Recipes</a>
+  </div>
+</header>
+
+<script>
+  const button = document.getElementById('recipes-btn')
+  button.style.cursor = 'pointer'
+  button.addEventListener('click', async (e) => {
+    e.preventDefault()
+    const response = await fetch('/api/products/list', {
+      method: 'POST',
+      body: JSON.stringify({ 
+        accessToken: localStorage.getItem('accessToken')
+      }),
+      headers: { 
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      }
+    })
+    
+    if (response.status >= 400) {
+      location.assign('/api/auth/login')
+      return
+    }
+    location.assign('/api/products/list')
+  })
+</script>
+
+<%- include('partials/footer'); -%>

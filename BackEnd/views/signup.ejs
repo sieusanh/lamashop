@@ -1,0 +1,66 @@
+<%- include('partials/header'); -%>
+
+<form>
+    <h2>Sign up</h2>
+    <label for="username">Username</label>
+    <input type="text" name="username" required />
+    <div class="username error"></div>
+    <label for="password">Password</label>
+    <input type="text" name="password" required />
+    <div class="password error"></div>
+    <label for="email">Email</label>
+    <input type="text" name="email" required />
+    <div class="email error"></div>
+    <button>Submit</button>
+</form>
+<div id="success" style="display: none; text-align: center;">
+    <h2>Register successfully</h2>
+    <a href="/api/auth/login">
+        <h2>Log in to begin</h2>
+    </a>
+</div>
+
+<script>
+    const form = document.querySelector('form')
+    const usernameError = document.querySelector('.username.error')
+    const passwordError = document.querySelector('.password.error')
+    const emailError = document.querySelector('.email.error')
+    const successDiv = document.getElementById('success')
+
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault()
+
+        // reset errors
+        usernameError.textContent = ''
+        emailError.textContent = ''
+        passwordError.textContent = ''
+
+        // get the values
+        const username = form.username.value
+        const password = form.password.value
+        const email = form.email.value
+
+        try {
+            const res = await fetch('/api/auth/signup', {
+                method: 'POST',
+                body: JSON.stringify({ username, password, email }),
+                headers: { 'Content-Type': 'application/json'}
+            })
+            const data = await res.json()
+            if (data.errors) {
+                usernameError.textContent = data.errors.username ?? ''
+                passwordError.textContent = data.errors.password ?? ''
+                emailError.textContent = data.errors.email ?? ''
+            }
+            if (data.user) {
+                form.style.display = "none"
+                successDiv.style.display = "block"
+            }
+        } 
+        catch (err) {
+            console.log(err)
+        }
+    })
+</script>
+
+<%- include('partials/footer'); -%>

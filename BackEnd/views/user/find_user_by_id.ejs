@@ -1,0 +1,61 @@
+<%- include('../partials/header'); -%>
+
+<h2>Find user by id</h2>
+
+<form>
+    <label for="id">User ID</label>
+    <input type="text" name="id" required />
+    <button>Submit</button>
+</form>
+
+<div style="text-align: center;">
+    <h3>Username: </h3> <p id="username"></p>   
+    <h3>Email: </h3> <p id="email"></p>
+    <h3>isAdmin: </h3> <p id="isAdmin"></p>
+</div>
+
+<div id="status" style="text-align: center; color: red; font-weight: bold;"></div>
+
+<script>
+    localStorage.getItem('isAdmin') === 'true' || location.assign('/')
+
+    const form = document.querySelector('form')
+    const status = document.getElementById('status')
+    const username = document.getElementById('username')
+    const email = document.getElementById('email')
+    const isAdmin = document.getElementById('isAdmin')
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault()
+        status.textContent = ''
+        username.textContent = ''
+        email.textContent = ''
+        isAdmin.textContent = ''
+        const id = form.id.value
+        const data = await fetch('/api/users/find/' + id, {
+            method: 'POST',
+            body: JSON.stringify({ 
+                accessToken: localStorage.getItem('accessToken') 
+            }),               
+            headers: { 
+                'Content-Type': 'application/json', 
+                'Accept': 'application/json'
+            }
+        })
+        .then(res => {
+            if (res.status === 404) {
+                status.textContent = 'User not found' 
+                throw 'Cancel'
+            }
+            if (res.status === 200) 
+                return res.json()
+        })
+        .then(data => { 
+            username.textContent = data.username ?? ''
+            email.textContent = data.email ?? ''
+            isAdmin.textContent = data.isAdmin ?? ''
+        })
+        .catch(err => console.log(err))
+    })
+</script>
+
+<%- include('../partials/footer'); -%>

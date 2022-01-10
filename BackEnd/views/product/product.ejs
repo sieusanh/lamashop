@@ -1,0 +1,78 @@
+<%- include('../partials/header'); -%>
+
+<div style="text-align: center;">
+    <img src="" alt="" id="image">
+    <h2 id="title"></h2>
+    <h4 id="desc"></h4>   
+    <div style="display: flex; justify-content: center;"> | 
+        <h4 id="categories" style="display: inline;"></h4> |
+        <h4 id="color"></h4> |
+        <h4 id="size"></h4> |
+        <h4 id="price"></h4> |
+    </div>
+</div>
+<div id="product_count">
+    <input type="button" value="-" name="minus">
+    <input type="text" value="1" name="quantity" readonly>
+    <input type="button" value="+" name="plus">
+</div>
+<button id="myBtn" style="margin: auto;">Add to cart</button>
+
+<script>
+    const url = window.location.href
+    const str_arr = url.split('/')
+    const productId = str_arr[str_arr.length - 1]
+    const title = document.getElementById('title')
+    const desc = document.getElementById('desc')
+    const image = document.getElementById('image')
+    const categories = document.getElementById('categories')
+    const size = document.getElementById('size')
+    const color = document.getElementById('color')
+    const price = document.getElementById('price')
+    const product_count = document.getElementById('product_count')
+    const button = document.getElementById('myBtn')
+    const minus = document.getElementsByName('minus')[0]
+    const quantity = document.getElementsByName('quantity')[0]
+    const plus = document.getElementsByName('plus')[0]
+    
+    fetch('/api/products/find/' + productId)
+    .then(res => res.json())
+    .then(data => {
+        title.textContent = data.title
+        desc.textContent = data.desc
+        image.src = "/images/" + data.image
+        categories.textContent = data.categories
+        size.textContent = data.size
+        color.textContent = data.color
+        price.textContent = data.price + '$'
+    })
+
+    minus.addEventListener('click', event => {
+        event.preventDefault()
+        if (quantity.value == 1)
+            return 
+        quantity.value = parseInt(quantity.value) - 1
+    })
+
+    plus.addEventListener('click', event => {
+        event.preventDefault()
+        quantity.value = parseInt(quantity.value) + 1
+    })
+    button.addEventListener('click', event => {
+        event.preventDefault()
+        fetch('/api/carts/' + localStorage.getItem('cartId'), {
+            method: 'PUT',
+            body: JSON.stringify({ 
+                accessToken: localStorage.getItem('accessToken'),
+                userId: localStorage.getItem('id'), 
+                product: {quantity: quantity.value, productId}
+            }),               
+            headers: { 
+                'Content-Type': 'application/json', 
+                'Accept': 'application/json'
+            }
+        })
+    })
+</script>
+
+<%- include('../partials/footer'); -%>
