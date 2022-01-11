@@ -23,7 +23,7 @@ mongoose
     .then((result) => {
         console.log('Connect database successfully')
         const port = process.env.PORT || 8080
-        app.listen(port, 'localhost', () => 
+        app.listen(port, () => 
             console.log(`Server is running on port ${port}...`)
         )
     })
