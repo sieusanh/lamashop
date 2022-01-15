@@ -28,6 +28,10 @@ const UserSchema = new mongoose.Schema(
             lowercase: true,
             validate: [isEmail, 'Please enter a valid email']
         },
+        firstname: {
+            type: String, 
+            required: [true, 'Please enter an email'],
+        },
         isAdmin: {
             type: Boolean,
             default: false

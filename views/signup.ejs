@@ -48,9 +48,9 @@
             })
             const data = await res.json()
             if (data.errors) {
-                usernameError.textContent = data.errors.username ?? ''
-                passwordError.textContent = data.errors.password ?? ''
-                emailError.textContent = data.errors.email ?? ''
+                usernameError.textContent = data.errors.username || ''
+                passwordError.textContent = data.errors.password || ''
+                emailError.textContent = data.errors.email || ''
             }
             if (data.user) {
                 form.style.display = "none"

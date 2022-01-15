@@ -80,7 +80,6 @@ const login_post = async (req, res) => {
 }
 
 const logout_get = async (req, res) => {
-    // response without content
     res.status(204).json({message: 'Goodbye!'})
 }
 
