@@ -1,5 +1,4 @@
 # ECOMMERCE
-<<<<<<< HEAD
 
 Hi, my name is Sanh, welcome to my sample project.
 
@@ -8,12 +7,13 @@ Here is the feature list:
 **Authentication**
   1. Signup\
     + Validated information\
-    + Password hashed
+    + Hashed password
   2. Login\
     + Stateless JWT authentication
   3. Logut
 
 **User**
+  
 
 **Product**
   1. View product list (Guest)
@@ -28,5 +28,5 @@ Here is the feature list:
 **Cart**
 
 **Payment**
+
 =======
->>>>>>> 012efa50b84cebba595267d9c338a917e3baf242
