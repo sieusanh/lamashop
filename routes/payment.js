@@ -1,6 +1,8 @@
-
+const dotenv = require('dotenv')
 const router = require('express').Router()
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
+
+dotenv.config()
 
 router.post('/checkout', (req, res) => {
     const {tokenId: source, amount} = req.body

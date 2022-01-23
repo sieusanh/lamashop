@@ -3,7 +3,6 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const dotenv = require('dotenv')
-const cors = require('cors')
 
 const authRoute = require('./routes/auth')
 // const userRoute = require('./routes/user')
@@ -18,19 +17,13 @@ dotenv.config()
 // middleware
 app.use(express.json())
 app.use(express.static('public'))
-app.use(cors({
-    origin: ["http://localhost:8080", "https://checkout.stripe.com"],
-}))
 
 // Database Connection
 mongoose
     .connect(process.env.MONGO_URL)
-    .then((result) => {
+    .then(result => {
         console.log('Connect database successfully')
-        const port = process.env.PORT || 8080
-        app.listen(port, () => 
-            console.log(`Server is running on port ${port}...`)
-        )
+        app.listen(process.env.PORT, () => console.log(`Server is running...`))
     })
     .catch(err => console.log(err))
     
@@ -45,4 +38,5 @@ app.use('/api/payment', paymentRoute)
 // public resources
 app.use('/images', express.static('images'))
 
-app.get('/', (req, res) => res.render('index.html'))
+// app.get('/', (req, res) => res.render('index.html'))
+app.get('/', (req, res) => res.render('/frontend/public/index.html'))

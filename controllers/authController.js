@@ -50,13 +50,12 @@ const login_get = (req, res) => {
 }
 
 const signup_post = async (req, res) => {
-    const {username, password, email} = req.body
-
-    try {
-        const user = await User.create({ username, password, email})
+    const { firstname, lastname, email, username, password } = req.body 
+    try{
+        const user = await User.create({ firstname, lastname, email, username, password })
         res.status(201).json({ user: user._id })
-    } catch(err) {
-        const errors = handleErrors(err)
+    } catch(error) {
+        const errors = handleErrors(error)
         res.status(400).json({errors})
     }
 }

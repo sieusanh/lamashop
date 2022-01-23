@@ -30,7 +30,11 @@ const UserSchema = new mongoose.Schema(
         },
         firstname: {
             type: String, 
-            required: [true, 'Please enter an email'],
+            required: [true, 'Please enter an firstname'],
+        },
+        lastname: {
+            type: String,
+            required: [true, 'Please enter an lastname']
         },
         isAdmin: {
             type: Boolean,

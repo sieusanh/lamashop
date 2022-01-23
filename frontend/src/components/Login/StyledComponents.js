@@ -40,6 +40,10 @@ const Input = styled.input`
     padding: 10px;
 `
 
+const ValidationError = styled.div`
+    color: red;
+`
+
 const Button = styled.button`
     width: 40%;
     border: none;
@@ -57,4 +61,4 @@ const Link = styled.a`
     cursor: pointer;
 `
 
-export { Container, Wrapper, Title, Form, Input, Button, Link }
+export { Container, Wrapper, Title, Form, Input, ValidationError, Button, Link }
