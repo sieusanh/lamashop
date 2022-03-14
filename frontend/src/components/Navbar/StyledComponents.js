@@ -52,7 +52,9 @@ const Logo = styled.h1`
     ${mobile({ fontSize: '24px'})}
 `
 
-const Right = styled.div`
+const Right = styled.div``
+
+const RightContainer = styled.div`
     flex: 1;
     display: flex;
     align-items: center;
@@ -69,7 +71,10 @@ const MenuItem = styled.div`
         transform: scale(1.1);
     };
     ${mobile({ fontSize: '12px', marginLeft: '10px' })}
-
 `
 
-export { Container, Wrapper, Left, Language, SearchContainer, SearchInput, Center, Logo, Right, MenuItem }
+const Logout = styled.div`
+`
+
+export { Container, Wrapper, Left, Language, SearchContainer, SearchInput, Center, Logo, 
+    Right, RightContainer, MenuItem, Logout }

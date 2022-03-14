@@ -1,4 +1,4 @@
-import { SET_FIRSTNAME, SET_USERNAME, SET_ID, SET_ISADMIN, SET_EXP, SET_ACCESS_TOKEN } from './constants'
+import { SET_FIRSTNAME, SET_USERNAME, SET_ID, SET_ISADMIN, SET_EXP, SET_ACCESS_TOKEN, SET_AUTHEN } from './constants'
 
 const setFirstname = payload => ({
     type: SET_FIRSTNAME,
@@ -30,4 +30,9 @@ const setAccessToken = payload => ({
     payload
 })
 
-export { setFirstname, setUsername, setId, setIsAdmin, setExp, setAccessToken }
+const setAuthen = payload => ({
+    type: SET_AUTHEN,
+    payload
+})
+
+export { setFirstname, setUsername, setId, setIsAdmin, setExp, setAccessToken, setAuthen }

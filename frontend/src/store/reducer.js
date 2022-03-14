@@ -1,4 +1,4 @@
-import { SET_FIRSTNAME, SET_USERNAME, SET_ID, SET_ISADMIN, SET_EXP, SET_ACCESS_TOKEN } from './constants'
+import { SET_FIRSTNAME, SET_USERNAME, SET_ID, SET_ISADMIN, SET_EXP, SET_ACCESS_TOKEN, SET_AUTHEN } from './constants'
 
 const initState = {
     firstname: '',
@@ -6,7 +6,8 @@ const initState = {
     id: '',
     isAdmin: false,
     exp: '',
-    accessToken: ''
+    accessToken: '',
+    authen: false
 }
 
 function reducer(state, action) {
@@ -41,6 +42,11 @@ function reducer(state, action) {
                 ...state,
                 accessToken: action.payload
             } 
+        case SET_AUTHEN:
+            return {
+                ...state, 
+                authen: action.payload
+            }
         default:
             throw new Error('Invalid action')
     }

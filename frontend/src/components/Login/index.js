@@ -28,10 +28,16 @@ function Login() {
             //
             if (data.user && data.exp && data.accessToken) { 
                 const user = data.user
+                console.log('firstname:', user.firstname)
+                console.log('id: ', user.id)
+                console.log('isAdmin: ', user.isAdmin)
+                console.log('accessToken: ', data.accessToken)
                 dispatch(actions.setId(user.id))
                 dispatch(actions.setIsAdmin(user.isAdmin))
                 dispatch(actions.setExp(data.exp))
+                dispatch(actions.setFirstname(user.firstname))
                 dispatch(actions.setAccessToken(data.accessToken))
+                dispatch(actions.setAuthen(true))
                 navigate('/')
             }        
         })
