@@ -17,4 +17,12 @@ function tablet(props) {
     `
 }
 
-export { mobile, tablet, }
+function wideScreen(props) {
+    return css`
+        @media only screen and (min-width: 1490px) {
+            ${props}
+        }
+    `
+}
+
+export { mobile, tablet, wideScreen}

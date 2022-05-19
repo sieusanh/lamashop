@@ -1,7 +1,7 @@
 'use strict'
 const jwt = require('jsonwebtoken')
 
-const userAuthentication = async (req, res, next) => {
+const userAuthentication = (req, res, next) => {
     const {accessToken} = req.body
     jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET, (err, decodedToken) => {
         if (err) {

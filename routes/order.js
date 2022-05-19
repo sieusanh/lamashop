@@ -3,7 +3,7 @@ const router = require('express').Router()
 const {userAuthentication} = require('../middlewares/Authentication')
 const {adminAuthorization} = require('../middlewares/Authorization')
 const {createOrder, updateOrder, deleteOrder, 
-    getOrderByUserId, getAllOrder, getMonthlyIncome} = require('../controllers/orderController')
+    getOrderByUserId, getAllOrder, getMonthlyIncome} = require('../controllers/order')
 
 // CREATE
 router.post('/', userAuthentication, createOrder)

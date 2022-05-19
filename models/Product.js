@@ -10,7 +10,7 @@ const ProductSchema = new mongoose.Schema(
         color: { type: String},
         price: { type: Number, required: true},
         stock: { type: Number, required: true},
-        discount: { type: Number, required: true},
+        discount: { type: Number},
     }, 
     {timestamps: true}
 )
