@@ -1,10 +1,8 @@
 
 import styled from 'styled-components'
-import { mobile} from '../../../responsive'
 
 const Container = styled.div`
     height: 60px;
-    ${mobile({ height: '50px'})}
 `
 
 const Wrapper = styled.div`
@@ -12,7 +10,6 @@ const Wrapper = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    ${mobile({ padding: '10px 0'})}
 `
 
 const Center = styled.div`
@@ -25,7 +22,6 @@ const RightContainer = styled.div`
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    ${mobile({ flex: 2, justifyContent: 'center'})}
 `
 
 const MenuItem = styled.div`
@@ -36,7 +32,6 @@ const MenuItem = styled.div`
         font-weight: 600;
         transform: scale(1.1);
     };
-    ${mobile({ fontSize: '12px', marginLeft: '10px' })}
 `
 
 const Logout = styled.div`

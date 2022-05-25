@@ -32,7 +32,7 @@ function Authenticated() {
     return (
         <RightContainer>
             <MenuItem>
-                Hi {localStorage.getItem('firstname')}!
+                Hi {localStorage.getItem('firstname')}
             </MenuItem>
             <MenuItem>
                 <Logout onClick={handleLogout}>LOG OUT</Logout>

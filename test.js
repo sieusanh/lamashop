@@ -1,10 +1,5 @@
 
 
-const obj = {a: '1', b: '2', c: '3'}
+var a = true
 
-const other = {a, b} = obj
-
-console.log(other)
-
-console.log(a)
-console.log(b)
+console.log(typeof a.toString())

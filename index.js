@@ -40,18 +40,18 @@ app.use(session({
 }))
 
 // Development
-// app.get('/', csrfProtection, (req, res) =>
-//     res.render('/frontend/public/index.html', {
-//         csrfToken: req.csrfToken()
-//     })
-// )
-
-// Deployment
-app.get('/', csrfProtection, (req, res) => 
-    res.render('index.html', { 
-        csrfToken: req.csrfToken() 
+app.get('/', csrfProtection, (req, res) =>
+    res.render('/frontend/public/index.html', {
+        csrfToken: req.csrfToken()
     })
 )
+
+// Deployment
+// app.get('/', csrfProtection, (req, res) => 
+//     res.render('index.html', { 
+//         csrfToken: req.csrfToken() 
+//     })
+// )
 
 // Database Connection
 mongoose

@@ -97,7 +97,6 @@ function App() {
                 </Route>
             </Routes>
         </>
-
     )
 }
 

@@ -1,8 +1,11 @@
 import {Container} from './StyledComponent'
+import DashBoard from '../../../components/Admin/DashBoard'
 
 function DashBoardPage() {
     return (
-        <Container></Container>
+        <Container>
+            <DashBoard />
+        </Container>
     )
 }
 

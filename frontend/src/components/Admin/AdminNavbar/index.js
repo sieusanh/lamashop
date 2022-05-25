@@ -3,8 +3,8 @@ import { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { MyContext } from '../../../context'
 
-import { Container, Wrapper, Right, RightContainer, 
-    MenuItem, Logout, MyLink } from './StyledComponents'
+import { Container, Wrapper, RightContainer, 
+    MenuItem, Logout } from './StyledComponents'
 
 function Authenticated() {
     const navigate = useNavigate()
@@ -25,7 +25,7 @@ function Authenticated() {
     return (
         <RightContainer>
             <MenuItem>
-                Hi {localStorage.getItem('firstname')}!
+                Hi {localStorage.getItem('username')}
             </MenuItem>
             <MenuItem>
                 <Logout onClick={handleLogout}>LOG OUT</Logout>
@@ -39,7 +39,7 @@ function AdminNavbar() {
     return (
         <Container>
             <Wrapper>
-                {authen && <Authenticated/>}
+                {authen && <Authenticated />}
             </Wrapper>
         </Container>
     )
